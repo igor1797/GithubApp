@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Github app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="searchHintText">Search...</string>
+    <string name="searchTextButton">SEARCH</string>
+    <string name="githubLogoContentDescriptionText">Github logo</string>
+    <string name="filterIconContentDescriptionText">Filter icon</string>
+</resources>
