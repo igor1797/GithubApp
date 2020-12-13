@@ -1,62 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SearchFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/filterIcon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_filter_icon"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="@string/filterIconContentDescriptionText"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="igor.kuridza.dice.githubapp.ui.fragments.search.SearchFragmentViewModel" />
+    </data>
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        app:layout_constraintTop_toBottomOf="@id/filterIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="64dp"
-        android:src="@drawable/ic_github_logo"
-        android:contentDescription="@string/githubLogoContentDescriptionText"
-        />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragments.search.SearchFragment">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/searchInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintStart_toStartOf="@id/logo"
-        app:layout_constraintEnd_toEndOf="@id/logo"
-        android:drawableEnd="@drawable/ic_search"
-        android:hint="@string/searchHintText"
-        android:padding="10dp"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@id/searchButton"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/searchButton"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        app:layout_constraintTop_toBottomOf="@id/searchInput"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/logo"
-        app:layout_constraintEnd_toEndOf="@id/logo"
-        app:cornerRadius="10dp"
-        android:text="@string/searchTextButton"
-        android:enabled="false"
-        android:backgroundTint="@color/buttonSearchBackgroundColor"
-        android:textColor="@color/buttonSearchTextColor"
-        android:textStyle="bold"
-        android:textSize="14sp">
-    </com.google.android.material.button.MaterialButton>
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/filterIcon"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/filterIconContentDescriptionText"
+                    android:src="@drawable/ic_filter_icon" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="64dp"
+                android:contentDescription="@string/githubLogoContentDescriptionText"
+                android:src="@drawable/ic_github_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_search"
+                android:hint="@string/searchHintText"
+                android:inputType="text"
+                android:padding="15dp"
+                app:layout_constraintBottom_toTopOf="@id/searchButton"
+                app:layout_constraintEnd_toEndOf="@id/logo"
+                app:layout_constraintStart_toStartOf="@id/logo"
+                app:layout_constraintTop_toBottomOf="@id/logo" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/searchButton"
+                android:layout_width="0dp"
+                android:layout_height="65dp"
+                android:backgroundTint="@color/buttonSearchBackgroundColor"
+                android:enabled="@{viewModel.searchInputIsDataValid}"
+                android:text="@string/searchTextButton"
+                android:textColor="@color/buttonSearchTextColor"
+                android:textSize="14sp"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/logo"
+                app:layout_constraintStart_toStartOf="@id/logo"
+                app:layout_constraintTop_toBottomOf="@id/searchInput" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/backgroundBehindBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="@color/silver"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/chooseSourceBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/whiteSmoke"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
+            <TextView
+                android:id="@+id/bottomSheetHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="26dp"
+                android:text="@string/bottomSheetHeaderText"
+                android:textColor="#1e1e21"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightGray" />
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/repositoriesCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:padding="24dp"
+                android:text="@string/repositoriesCheckBoxText"
+                android:textSize="20sp"
+                android:buttonTint="@color/seaGreen"/>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/usersCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:padding="24dp"
+                android:text="@string/usersCheckBoxText"
+                android:textSize="20sp"
+                android:buttonTint="@color/seaGreen" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/applyButton"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="48dp"
+                android:backgroundTint="@color/dimgray"
+                android:text="@string/applyButtonText"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:cornerRadius="10dp"
+                android:enabled="@{viewModel.isCheckedAtLeastOneSource}"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

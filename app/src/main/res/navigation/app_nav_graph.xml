@@ -7,7 +7,52 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="igor.kuridza.dice.githubapp.SearchFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="searchQuery"
+            app:argType="string">
+        </argument>
+        <action
+            android:id="@+id/goToUsersAndRepositoriesListFragment"
+            app:destination="@id/usersAndRepositoriesListFragment" />
+        <action
+            android:id="@+id/goToUsersListFragment"
+            app:destination="@id/usersListFragment" />
+        <action
+            android:id="@+id/goToRepositoriesListFragment"
+            app:destination="@id/repositoriesListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/usersAndRepositoriesListFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.usearsandrepositories.UsersAndRepositoriesListFragment"
+        android:label="users_and_repositories_list_fragment"
+        tools:layout="@layout/users_and_repositories_list_fragment">
+        <argument
+            android:name="searchQuery"
+            app:argType="string">
+        </argument>
+    </fragment>
+    <fragment
+        android:id="@+id/repositoriesListFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListFragment"
+        android:label="repositories_list_fragment"
+        tools:layout="@layout/repositories_list_fragment">
+        <argument
+            android:name="searchQuery"
+            app:argType="string">
+        </argument>
+    </fragment>
+    <fragment
+        android:id="@+id/usersListFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.users.UsersListFragment"
+        android:label="users_list_fragment"
+        tools:layout="@layout/users_list_fragment">
+        <argument
+            android:name="searchQuery"
+            app:argType="string">
+        </argument>
+    </fragment>
 </navigation>

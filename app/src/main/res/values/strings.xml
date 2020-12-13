@@ -6,4 +6,12 @@
     <string name="searchTextButton">SEARCH</string>
     <string name="githubLogoContentDescriptionText">Github logo</string>
     <string name="filterIconContentDescriptionText">Filter icon</string>
+    <string name="bottomSheetHeaderText">Look for</string>
+    <string name="repositoriesCheckBoxText">Repositories</string>
+    <string name="usersCheckBoxText">Users</string>
+    <string name="applyButtonText">Apply</string>
+    <string name="authorDetailsText">Author \ndetails</string>
+    <string name="openInBrowserText">Open in \nbrowser</string>
+    <string name="openProfileText">Open\nprofile</string>
+    <string name="openRepositoriesText">Open\nrepositories</string>
 </resources>

@@ -1,7 +1,8 @@
-package igor.kuridza.dice.githubapp
+package igor.kuridza.dice.githubapp.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import igor.kuridza.dice.githubapp.R
 
 class MainActivity : AppCompatActivity() {
 
