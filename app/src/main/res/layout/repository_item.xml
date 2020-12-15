@@ -72,9 +72,9 @@
             android:id="@+id/privateOrPublicIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/repositoryDescription"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/issueIcon"
             privateOrPublic="@{repository.private}"
             />
 
@@ -82,18 +82,17 @@
             android:id="@+id/issueIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/privateOrPublicIcon"
             app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintEnd_toStartOf="@id/numberOfIssues"
+            app:layout_constraintBottom_toTopOf="@id/watchersIcon"
             android:src="@drawable/ic_issue_icon"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/numberOfIssues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@id/issueIcon"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/issueIcon"
             app:layout_constraintBottom_toBottomOf="@id/issueIcon"
             android:text="@{Integer.toString(repository.numberOfOpenedIssues)}"/>
@@ -102,18 +101,17 @@
             android:id="@+id/watchersIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/numberOfIssues"
-            app:layout_constraintEnd_toStartOf="@id/numberOfWatchers"
+            app:layout_constraintTop_toBottomOf="@id/issueIcon"
             app:layout_constraintStart_toStartOf="@id/rightBackground"
+            app:layout_constraintBottom_toTopOf="@id/starredIcon"
             android:src="@drawable/ic_watchers"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/numberOfWatchers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@id/watchersIcon"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/watchersIcon"
             app:layout_constraintBottom_toBottomOf="@id/watchersIcon"
             android:text="@{Integer.toString(repository.numberOfWatchers)}"/>
@@ -122,18 +120,17 @@
             android:id="@+id/starredIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintTop_toBottomOf="@id/numberOfWatchers"
-            app:layout_constraintEnd_toStartOf="@id/numberOfStarGazers"
+            app:layout_constraintTop_toBottomOf="@id/watchersIcon"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
             android:src="@drawable/ic_star"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/numberOfStarGazers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@id/starredIcon"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/starredIcon"
             app:layout_constraintBottom_toBottomOf="@id/starredIcon"
             android:text="@{Integer.toString(repository.numberOfStarGazers)}"/>
@@ -143,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/numberOfStarGazers"
+            app:layout_constraintTop_toBottomOf="@id/repositoryDescription"
             android:background="@color/silver"/>
 
         <com.google.android.material.textview.MaterialTextView
