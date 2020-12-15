@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.LinearLayout
+import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -37,7 +38,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         initDataBinding()
         initBehavior()
         initBottomSheetCallback()
-        initAfterTextChangedListener()
         initBadge()
         setFilterIconOnClickListener()
         setBackgroundBehindBottomSheetOnClickListener()
@@ -45,8 +45,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setCheckboxesOnClickListener()
         setSearchButtonOnClickListener()
         addBottomSheetCallback()
-        addAfterTextChangedListener()
         setCheckedSources()
+        monitorsSearchInputChanges()
     }
 
     @SuppressLint("RestrictedApi")
@@ -142,14 +142,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.chooseSourceBottomSheet)
     }
 
-    private fun initAfterTextChangedListener(){
-        afterTextChangedListener = object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun afterTextChanged(searchQuery: Editable) {
-                searchFragmentViewModel.searchInputDataChanged(searchQuery.toString())
-            }
+    private fun monitorsSearchInputChanges(){
+        binding.searchInput.doOnTextChanged { searchQuery, _, _, _ ->
+            searchFragmentViewModel.searchInputDataChanged(searchQuery.toString())
         }
     }
 
@@ -189,14 +184,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback)
     }
 
-    private fun addAfterTextChangedListener(){
-        binding.searchInput.addTextChangedListener(afterTextChangedListener)
-    }
-
-    private fun removeAfterTextChangedListener(){
-        binding.searchInput.removeTextChangedListener(afterTextChangedListener)
-    }
-
     private fun removeBottomSheetCallback(){
         bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallback)
     }
@@ -229,7 +216,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     override fun onDestroyView() {
         detachBadgeDrawable()
-        removeAfterTextChangedListener()
         removeBottomSheetCallback()
         super.onDestroyView()
     }
