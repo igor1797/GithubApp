@@ -1,7 +1,10 @@
 package igor.kuridza.dice.githubapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Repository(
     val name: String,
     val owner: RepositoryOwner,
@@ -14,5 +17,7 @@ data class Repository(
     val numberOfStarGazers: Int,
     @SerializedName("forks_count")
     val numberOfForks: Int,
-    val description: String?
-)
+    val description: String?,
+    @SerializedName("html_url")
+    val repositoryUrl: String
+):Parcelable

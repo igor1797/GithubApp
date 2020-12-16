@@ -5,10 +5,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import igor.kuridza.dice.githubapp.R
+import igor.kuridza.dice.githubapp.common.onClick
 import igor.kuridza.dice.githubapp.databinding.RepositoryItemBinding
 import igor.kuridza.dice.githubapp.model.Repository
+import igor.kuridza.dice.githubapp.model.RepositoryOwner
 
-class RepositoryListAdapter: RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
+class RepositoryListAdapter(
+    private val repositoryItemClickListener: RepositoryClickListener,
+    private val openInBrowserClickListener: OpenInBrowserClickListener,
+    private val authorDetailsClickListener: AuthorDetailsClickListener
+): RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
 
     private val repositories = arrayListOf<Repository>()
 
@@ -19,7 +25,7 @@ class RepositoryListAdapter: RecyclerView.Adapter<RepositoryListAdapter.Reposito
     }
 
     override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
-        holder.bindItem(repositories[position])
+        holder.bindItem(repositories[position], repositoryItemClickListener, openInBrowserClickListener, authorDetailsClickListener)
     }
 
     override fun getItemCount(): Int = repositories.size
@@ -30,9 +36,37 @@ class RepositoryListAdapter: RecyclerView.Adapter<RepositoryListAdapter.Reposito
         notifyDataSetChanged()
     }
 
+    interface RepositoryClickListener{
+        fun onRepositoryClicked(repository: Repository)
+    }
+
+    interface OpenInBrowserClickListener{
+        fun onOpenInBrowserClicked(repositoryUrl: String)
+    }
+
+    interface AuthorDetailsClickListener{
+        fun onAuthorDetailsClicked(repositoryOwner: RepositoryOwner)
+    }
+
     inner class RepositoryHolder(private val binding: RepositoryItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bindItem(repository: Repository){
-            binding.repository = repository
+        fun bindItem(
+            mRepository: Repository,
+            repositoryItemClickListener: RepositoryClickListener,
+            openInBrowserClickListener: OpenInBrowserClickListener,
+            authorDetailsClickListener: AuthorDetailsClickListener
+        ){
+            binding.apply {
+                repository = mRepository
+                repositoryCard.onClick {
+                    repositoryItemClickListener.onRepositoryClicked(mRepository)
+                }
+                openInBrowser.onClick {
+                    openInBrowserClickListener.onOpenInBrowserClicked(mRepository.repositoryUrl)
+                }
+                authorDetails.onClick {
+                    authorDetailsClickListener.onAuthorDetailsClicked(mRepository.owner)
+                }
+            }
         }
     }
 }

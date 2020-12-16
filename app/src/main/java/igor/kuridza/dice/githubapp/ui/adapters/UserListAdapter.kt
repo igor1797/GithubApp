@@ -5,10 +5,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import igor.kuridza.dice.githubapp.R
+import igor.kuridza.dice.githubapp.common.onClick
 import igor.kuridza.dice.githubapp.databinding.UserItemBinding
 import igor.kuridza.dice.githubapp.model.User
 
-class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
+class UserListAdapter(
+    private val openProfileClickListener: OpenProfileClickListener
+): RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
 
     private val userList = arrayListOf<User>()
 
@@ -19,7 +22,7 @@ class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
     }
 
     override fun onBindViewHolder(holder: UserListHolder, position: Int) {
-        holder.bindItem(userList[position])
+        holder.bindItem(userList[position], openProfileClickListener)
     }
 
     override fun getItemCount(): Int = userList.size
@@ -30,9 +33,18 @@ class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
         notifyDataSetChanged()
     }
 
+    interface OpenProfileClickListener{
+        fun onOpenProfileClicked(user: User)
+    }
+
     inner class UserListHolder(private val binding: UserItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bindItem(user: User){
-            binding.user = user
+        fun bindItem(mUser: User, openProfileClickListener: OpenProfileClickListener){
+            binding.apply {
+                user = mUser
+                openProfile.onClick {
+                    openProfileClickListener.onOpenProfileClicked(mUser)
+                }
+            }
         }
     }
 }

@@ -10,10 +10,6 @@
         android:name="igor.kuridza.dice.githubapp.ui.fragments.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
-        <argument
-            android:name="searchQuery"
-            app:argType="string">
-        </argument>
         <action
             android:id="@+id/goToUsersAndRepositoriesListFragment"
             app:destination="@id/usersAndRepositoriesListFragment" />
@@ -34,6 +30,12 @@
             android:name="searchQuery"
             app:argType="string">
         </argument>
+        <action
+            android:id="@+id/goToRepositoryDetailsFragment"
+            app:destination="@id/detailsRepositoryFragment" />
+        <action
+            android:id="@+id/goToUserDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/repositoriesListFragment"
@@ -44,6 +46,12 @@
             android:name="searchQuery"
             app:argType="string">
         </argument>
+        <action
+            android:id="@+id/goToRepositoryDetailsFragment"
+            app:destination="@id/detailsRepositoryFragment" />
+        <action
+            android:id="@+id/goToUserDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/usersListFragment"
@@ -53,6 +61,29 @@
         <argument
             android:name="searchQuery"
             app:argType="string">
+        </argument>
+        <action
+            android:id="@+id/goToUserDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsRepositoryFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.details.RepositoryDetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_repository_details">
+        <argument
+            android:name="repository"
+            app:argType="igor.kuridza.dice.githubapp.model.Repository">
+        </argument>
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.details.UserDetailsFragment"
+        android:label="fragment_user_details"
+        tools:layout="@layout/fragment_user_details">
+        <argument
+            android:name="repositoryOwner"
+            app:argType="igor.kuridza.dice.githubapp.model.RepositoryOwner">
         </argument>
     </fragment>
 </navigation>

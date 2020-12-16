@@ -1,25 +1,19 @@
 package igor.kuridza.dice.githubapp.ui.fragments.search
 
 import android.annotation.SuppressLint
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import android.widget.CheckBox
 import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.checkbox.MaterialCheckBox
-import igor.kuridza.dice.githubapp.*
+import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.gone
 import igor.kuridza.dice.githubapp.common.onClick
 import igor.kuridza.dice.githubapp.common.visible
 import igor.kuridza.dice.githubapp.databinding.FragmentSearchBinding
 import igor.kuridza.dice.githubapp.model.CheckedSourcesState
-import igor.kuridza.dice.githubapp.model.SelectedSource
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -27,26 +21,41 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     private lateinit var bottomSheetCallback: BottomSheetBehavior.BottomSheetCallback
-    private lateinit var afterTextChangedListener: TextWatcher
     private val searchFragmentViewModel: SearchFragmentViewModel by viewModel()
     private lateinit var badge: BadgeDrawable
-    private val checkedSourcesList = arrayListOf<MaterialCheckBox>()
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_search
 
     override fun setUpUi() {
+        initProperties()
+        setClickListeners()
+        addBottomSheetCallback()
+        setCheckedSources()
+        monitorsSearchInputChanges()
+        observeCheckedSourcesState()
+    }
+
+    private fun initProperties(){
+        initBadge()
         initDataBinding()
         initBehavior()
         initBottomSheetCallback()
-        initBadge()
+    }
+
+    private fun setClickListeners(){
         setFilterIconOnClickListener()
         setBackgroundBehindBottomSheetOnClickListener()
         setBottomSheetItemsOnClickListener()
         setCheckboxesOnClickListener()
         setSearchButtonOnClickListener()
-        addBottomSheetCallback()
-        setCheckedSources()
-        monitorsSearchInputChanges()
+    }
+
+    private fun observeCheckedSourcesState(){
+        searchFragmentViewModel.checkedSourcesState.observe(this){
+            it?.let { checkedSourcesState ->
+                badge.number = checkedSourcesState.getNumberOfCheckedSources()
+            }
+        }
     }
 
     @SuppressLint("RestrictedApi")
@@ -54,7 +63,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         badge = BadgeDrawable.create(requireContext())
         binding.filterIcon.post {
             badge.verticalOffset = -20
-            badge.number = 1
             badge.badgeGravity = BadgeDrawable.TOP_START
             BadgeUtils.attachBadgeDrawable(badge, binding.filterIcon, binding.frameLayout)
             BadgeUtils.setBadgeDrawableBounds(badge, binding.filterIcon, binding.frameLayout)
@@ -63,6 +71,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun initDataBinding(){
         binding.viewModel = searchFragmentViewModel
+    }
+
+    private fun initBehavior(){
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.chooseSourceBottomSheet)
+    }
+
+    private fun initBottomSheetCallback(){
+        bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                setBackgroundBehindBottomSheetByNewBottomSheetState(newState)
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                changeAlphaOfBackgroundBehindBottomSheet(slideOffset)
+            }
+        }
     }
 
     private fun setCheckedSources(){
@@ -74,25 +98,33 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         }
     }
 
-    private fun setSearchButtonOnClickListener(){
+    private fun setSearchButtonOnClickListener() {
         binding.searchButton.onClick {
             val query = binding.searchInput.text.toString()
-            when(searchFragmentViewModel.selectedSource.value){
-                SelectedSource.BOTH_SOURCE -> {
-                    val action = SearchFragmentDirections.goToUsersAndRepositoriesListFragment(query)
-                    findNavController().navigate(action)
+            searchFragmentViewModel.checkedSourcesState.value?.let { checkedSourcesState ->
+                when {
+                    checkedSourcesState.getNumberOfCheckedSources() == 2 -> showUsersAndRepositoriesList(query)
+                    checkedSourcesState.isRepositorySourceChecked -> showRepositoriesList(query)
+                    else -> showUsersList(query)
                 }
-                SelectedSource.REPOSITORY_SOURCE -> {
-                    val action = SearchFragmentDirections.goToRepositoriesListFragment(query)
-                    findNavController().navigate(action)
-                }
-                SelectedSource.USERS_SOURCE -> {
-                    val action = SearchFragmentDirections.goToUsersListFragment(query)
-                    findNavController().navigate(action)
-                }
+                clearSearchInputQuery()
             }
-            clearSearchInputQuery()
         }
+    }
+
+    private fun showUsersAndRepositoriesList(searchQuery: String){
+        val action = SearchFragmentDirections.goToUsersAndRepositoriesListFragment(searchQuery)
+        findNavController().navigate(action)
+    }
+
+    private fun showRepositoriesList(searchQuery: String){
+        val action = SearchFragmentDirections.goToRepositoriesListFragment(searchQuery)
+        findNavController().navigate(action)
+    }
+
+    private fun showUsersList(searchQuery: String){
+        val action = SearchFragmentDirections.goToUsersListFragment(searchQuery)
+        findNavController().navigate(action)
     }
 
     private fun clearSearchInputQuery(){
@@ -123,23 +155,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             val repoSelected = binding.repositoriesCheckBox.isChecked
             val userSelected = binding.usersCheckBox.isChecked
             searchFragmentViewModel.setSelectedSources(CheckedSourcesState(repoSelected, userSelected))
-            if (repoSelected && userSelected)
-                searchFragmentViewModel.changeSelectedSource(SelectedSource.BOTH_SOURCE)
-            else if (repoSelected)
-                searchFragmentViewModel.changeSelectedSource(SelectedSource.REPOSITORY_SOURCE)
-            else
-                searchFragmentViewModel.changeSelectedSource(SelectedSource.USERS_SOURCE)
-            setBadgeNumberOfCheckedSources()
             hideBottomSheet()
         }
-    }
-
-    private fun setBadgeNumberOfCheckedSources(){
-        badge.number = checkedSourcesList.size
-    }
-
-    private fun initBehavior(){
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.chooseSourceBottomSheet)
     }
 
     private fun monitorsSearchInputChanges(){
@@ -149,34 +166,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun setCheckboxesOnClickListener() {
-        binding.usersCheckBox.setOnCheckedChangeListener { checkBox, checked ->
+        binding.usersCheckBox.setOnCheckedChangeListener { _, checked ->
             val isCheckedAtLeastOneSource = binding.repositoriesCheckBox.isChecked || checked
             searchFragmentViewModel.changeStatusIsCheckedAtLeastOneSource(isCheckedAtLeastOneSource)
-            addOrRemoveCheckBox(checked, checkBox as MaterialCheckBox)
         }
-        binding.repositoriesCheckBox.setOnCheckedChangeListener { checkBox, checked ->
+        binding.repositoriesCheckBox.setOnCheckedChangeListener { _, checked ->
             val isCheckedAtLeastOneSource = binding.usersCheckBox.isChecked || checked
             searchFragmentViewModel.changeStatusIsCheckedAtLeastOneSource(isCheckedAtLeastOneSource)
-            addOrRemoveCheckBox(checked, checkBox as MaterialCheckBox)
-        }
-    }
-
-    private fun addOrRemoveCheckBox(checked: Boolean, checkBox: MaterialCheckBox){
-        if(checked)
-            checkedSourcesList.add(checkBox)
-        else
-            checkedSourcesList.remove(checkBox)
-    }
-
-    private fun initBottomSheetCallback(){
-        bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback(){
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                setBackgroundBehindBottomSheetByNewBottomSheetState(newState)
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                changeAlphaOfBackgroundBehindBottomSheet(slideOffset)
-            }
         }
     }
 
