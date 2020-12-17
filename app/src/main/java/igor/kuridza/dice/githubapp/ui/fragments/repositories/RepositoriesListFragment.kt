@@ -16,6 +16,7 @@ import igor.kuridza.dice.githubapp.model.RepositoryOwner
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.ui.adapters.RepositoryListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
+import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>(),
@@ -57,21 +58,44 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     private fun handleSuccess(data: List<Repository>?){
-        data?.let {
-            repositoryAdapter.setRepo(it)
+        data?.let { repositories ->
             hideLoading()
-            showData()
+            hideErrorMessage()
+            if (repositories.isNotEmpty()) {
+                repositoryAdapter.setRepo(repositories)
+                showData()
+                hideNoDataMessage()
+            } else
+                showNoDataMessage()
         }
     }
 
     private fun handleError(){
         hideLoading()
         hideData()
+        showErrorMessage()
     }
 
     private fun handleLoading(){
         hideData()
+        hideErrorMessage()
         showLoading()
+    }
+
+    private fun showNoDataMessage(){
+        binding.noDataMessage.visible()
+    }
+
+    private fun hideNoDataMessage(){
+        binding.noDataMessage.gone()
+    }
+
+    private fun showErrorMessage(){
+        binding.errorMessage.visible()
+    }
+
+    private fun hideErrorMessage(){
+        binding.errorMessage.gone()
     }
 
     private fun hideData(){

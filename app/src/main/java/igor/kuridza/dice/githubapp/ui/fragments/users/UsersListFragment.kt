@@ -50,21 +50,44 @@ class UsersListFragment : BaseFragment<UsersListFragmentBinding>(), UserListAdap
     }
 
     private fun handleSuccess(data: List<User>?){
-        data?.let {
-            usersAdapter.setUsers(it)
+        data?.let { users ->
             hideLoading()
-            showData()
+            hideErrorMessage()
+            if (users.isNotEmpty()) {
+                usersAdapter.setUsers(users)
+                showData()
+                hideNoDataMessage()
+            } else
+                showNoDataMessage()
         }
     }
 
     private fun handleLoading(){
-        showLoading()
         hideData()
+        hideErrorMessage()
+        showLoading()
     }
 
     private fun handleError(){
-        hideData()
         hideLoading()
+        hideData()
+        showErrorMessage()
+    }
+
+    private fun showNoDataMessage(){
+        binding.noDataMessage.visible()
+    }
+
+    private fun hideNoDataMessage(){
+        binding.noDataMessage.gone()
+    }
+
+    private fun showErrorMessage(){
+        binding.errorMessage.visible()
+    }
+
+    private fun hideErrorMessage(){
+        binding.errorMessage.gone()
     }
 
     private fun hideData(){

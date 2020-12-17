@@ -14,4 +14,6 @@
     <string name="openInBrowserText">Open in \nbrowser</string>
     <string name="openProfileText">Open\nprofile</string>
     <string name="openRepositoriesText">Open\nrepositories</string>
+    <string name="errorMessageText">An error occurred</string>
+    <string name="noDataMessageText">No data to display!</string>
 </resources>
