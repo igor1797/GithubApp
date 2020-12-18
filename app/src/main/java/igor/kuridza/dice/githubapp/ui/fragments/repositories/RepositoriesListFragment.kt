@@ -7,16 +7,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import igor.kuridza.dice.githubapp.R
+import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
 import igor.kuridza.dice.githubapp.common.SEARCH_QUERY_KEY
 import igor.kuridza.dice.githubapp.common.gone
 import igor.kuridza.dice.githubapp.common.visible
 import igor.kuridza.dice.githubapp.databinding.RepositoriesListFragmentBinding
 import igor.kuridza.dice.githubapp.model.Repository
-import igor.kuridza.dice.githubapp.model.RepositoryOwner
 import igor.kuridza.dice.githubapp.model.Resource
+import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.ui.adapters.RepositoryListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
-import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>(),
@@ -126,8 +126,8 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
         startActivity(intent)
     }
 
-    override fun onAuthorDetailsClicked(repositoryOwner: RepositoryOwner) {
-        val action = RepositoriesListFragmentDirections.goToUserDetailsFragment(repositoryOwner)
+    override fun onAuthorDetailsClicked(repositoryOwner: User) {
+        val action = RepositoriesListFragmentDirections.goToUserDetailsFragment(repositoryOwner, OPEN_PROFILE)
         findNavController().navigate(action)
     }
 

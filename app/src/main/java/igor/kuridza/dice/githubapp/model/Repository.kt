@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Repository(
     val name: String,
-    val owner: RepositoryOwner,
+    val owner: User,
     val private: Boolean,
     @SerializedName("open_issues_count")
     val numberOfOpenedIssues: Int,

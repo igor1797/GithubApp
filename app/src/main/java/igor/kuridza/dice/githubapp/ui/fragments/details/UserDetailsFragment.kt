@@ -7,20 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
+import igor.kuridza.dice.githubapp.common.OPEN_REPOSITORIES
 import igor.kuridza.dice.githubapp.databinding.FragmentUserDetailsBinding
-import igor.kuridza.dice.githubapp.model.RepositoryOwner
+import igor.kuridza.dice.githubapp.model.User
 
 class UserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding
     private val args: UserDetailsFragmentArgs by navArgs()
-    private lateinit var repositoryOwner: RepositoryOwner
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        repositoryOwner = args.repositoryOwner
+        user = args.user
         binding = FragmentUserDetailsBinding.inflate(inflater)
         return binding.root
     }
@@ -33,11 +35,18 @@ class UserDetailsFragment : Fragment() {
     }
 
     private fun setToolbarTitle(){
-        binding.toolbar.title = repositoryOwner.ownerName
+        binding.toolbar.title = user.name
     }
 
     private fun setWebViewContent(){
-        binding.webView.loadUrl(repositoryOwner.ownerUrl)
+        when(args.action){
+            OPEN_PROFILE -> loadUrl(user.profileUrl)
+            OPEN_REPOSITORIES -> loadUrl("${user.profileUrl}?tab=repositories")
+        }
+    }
+
+    private fun loadUrl(url: String){
+        binding.webView.loadUrl(url)
     }
 
     private fun setToolbarNavigationIconOnClickListener(){

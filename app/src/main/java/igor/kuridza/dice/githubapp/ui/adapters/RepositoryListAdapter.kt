@@ -8,7 +8,7 @@ import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.onClick
 import igor.kuridza.dice.githubapp.databinding.RepositoryItemBinding
 import igor.kuridza.dice.githubapp.model.Repository
-import igor.kuridza.dice.githubapp.model.RepositoryOwner
+import igor.kuridza.dice.githubapp.model.User
 
 class RepositoryListAdapter(
     private val repositoryItemClickListener: RepositoryClickListener,
@@ -45,7 +45,7 @@ class RepositoryListAdapter(
     }
 
     interface AuthorDetailsClickListener{
-        fun onAuthorDetailsClicked(repositoryOwner: RepositoryOwner)
+        fun onAuthorDetailsClicked(repositoryOwner: User)
     }
 
     inner class RepositoryHolder(private val binding: RepositoryItemBinding): RecyclerView.ViewHolder(binding.root){

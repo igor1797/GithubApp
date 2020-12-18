@@ -1,12 +1,11 @@
 package igor.kuridza.dice.githubapp.ui.fragments.users
 
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import igor.kuridza.dice.githubapp.R
-import igor.kuridza.dice.githubapp.common.SEARCH_QUERY_KEY
-import igor.kuridza.dice.githubapp.common.gone
-import igor.kuridza.dice.githubapp.common.visible
+import igor.kuridza.dice.githubapp.common.*
 import igor.kuridza.dice.githubapp.databinding.UsersListFragmentBinding
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
@@ -14,10 +13,12 @@ import igor.kuridza.dice.githubapp.ui.adapters.UserListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class UsersListFragment : BaseFragment<UsersListFragmentBinding>(), UserListAdapter.OpenProfileClickListener{
+class UsersListFragment : BaseFragment<UsersListFragmentBinding>(),
+    UserListAdapter.OpenProfileClickListener,
+    UserListAdapter.OpenRepositoriesListener {
 
     private val viewModel: UsersListViewModel by viewModel()
-    private val usersAdapter by lazy { UserListAdapter(this) }
+    private val usersAdapter by lazy { UserListAdapter(this, this) }
     private val args: UsersListFragmentArgs by navArgs()
 
     override fun getLayoutResourceId(): Int = R.layout.users_list_fragment
@@ -107,7 +108,16 @@ class UsersListFragment : BaseFragment<UsersListFragmentBinding>(), UserListAdap
     }
 
     override fun onOpenProfileClicked(user: User) {
-        //TODO
+       navigateToUserDetails(user, OPEN_PROFILE)
+    }
+
+    override fun onOpenRepositories(user: User) {
+        navigateToUserDetails(user, OPEN_REPOSITORIES)
+    }
+
+    private fun navigateToUserDetails(user: User, action: String){
+        val direction = UsersListFragmentDirections.goToUserDetailsFragment(user, action)
+        findNavController().navigate(direction)
     }
 
     companion object{

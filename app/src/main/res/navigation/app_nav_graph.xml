@@ -82,8 +82,12 @@
         android:label="fragment_user_details"
         tools:layout="@layout/fragment_user_details">
         <argument
-            android:name="repositoryOwner"
-            app:argType="igor.kuridza.dice.githubapp.model.RepositoryOwner">
+            android:name="user"
+            app:argType="igor.kuridza.dice.githubapp.model.User">
+        </argument>
+        <argument
+            android:name="Action"
+            app:argType="string">
         </argument>
     </fragment>
 </navigation>

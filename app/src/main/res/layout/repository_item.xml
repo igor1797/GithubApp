@@ -40,7 +40,7 @@
             android:id="@+id/repositoryAuthor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{repository.owner.ownerName}"
+            android:text="@{repository.owner.name}"
             app:layout_constraintEnd_toStartOf="@id/rightBackground"
             app:layout_constraintTop_toBottomOf="@id/repositoryName"
             app:layout_constraintStart_toStartOf="@id/repositoryName"

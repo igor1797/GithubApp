@@ -10,7 +10,8 @@ import igor.kuridza.dice.githubapp.databinding.UserItemBinding
 import igor.kuridza.dice.githubapp.model.User
 
 class UserListAdapter(
-    private val openProfileClickListener: OpenProfileClickListener
+    private val openProfileClickListener: OpenProfileClickListener,
+    private val openRepositoriesListener: OpenRepositoriesListener
 ): RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
 
     private val userList = arrayListOf<User>()
@@ -22,7 +23,7 @@ class UserListAdapter(
     }
 
     override fun onBindViewHolder(holder: UserListHolder, position: Int) {
-        holder.bindItem(userList[position], openProfileClickListener)
+        holder.bindItem(userList[position], openProfileClickListener, openRepositoriesListener)
     }
 
     override fun getItemCount(): Int = userList.size
@@ -37,12 +38,19 @@ class UserListAdapter(
         fun onOpenProfileClicked(user: User)
     }
 
+    interface OpenRepositoriesListener{
+        fun onOpenRepositories(user: User)
+    }
+
     inner class UserListHolder(private val binding: UserItemBinding): RecyclerView.ViewHolder(binding.root){
-        fun bindItem(mUser: User, openProfileClickListener: OpenProfileClickListener){
+        fun bindItem(mUser: User, openProfileClickListener: OpenProfileClickListener, openRepositoriesListener: OpenRepositoriesListener){
             binding.apply {
                 user = mUser
                 openProfile.onClick {
                     openProfileClickListener.onOpenProfileClicked(mUser)
+                }
+                openRepositories.onClick {
+                    openRepositoriesListener.onOpenRepositories(mUser)
                 }
             }
         }
