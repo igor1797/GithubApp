@@ -1,4 +1,4 @@
-package igor.kuridza.dice.githubapp.ui.fragments.search
+package igor.kuridza.dice.githubapp.ui.fragments.search.startscreen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

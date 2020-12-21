@@ -2,8 +2,10 @@ package igor.kuridza.dice.githubapp.common
 
 import android.view.View
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import igor.kuridza.dice.githubapp.R
 
 fun View.onClick(onClick: () -> Unit){
@@ -34,4 +36,8 @@ fun View.gone(){
 
 fun View.visible(){
     this.visibility = View.VISIBLE
+}
+
+fun Fragment.showSnackbar(message: String){
+    Snackbar.make(this.requireView().rootView, message, Snackbar.LENGTH_SHORT).show()
 }

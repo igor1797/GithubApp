@@ -7,13 +7,13 @@
     <data>
         <variable
             name="viewModel"
-            type="igor.kuridza.dice.githubapp.ui.fragments.search.SearchFragmentViewModel" />
+            type="igor.kuridza.dice.githubapp.ui.fragments.search.startscreen.SearchFragmentViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragments.search.SearchFragment">
+        tools:context=".ui.fragments.search.startscreen.SearchFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

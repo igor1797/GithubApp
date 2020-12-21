@@ -1,57 +1,92 @@
-package igor.kuridza.dice.githubapp.ui.fragments.repositories
+package igor.kuridza.dice.githubapp.ui.fragments.search.searchrepositories
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import igor.kuridza.dice.githubapp.R
-import igor.kuridza.dice.githubapp.common.*
-import igor.kuridza.dice.githubapp.databinding.RepositoriesListFragmentBinding
+import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
+import igor.kuridza.dice.githubapp.common.gone
+import igor.kuridza.dice.githubapp.common.showSnackbar
+import igor.kuridza.dice.githubapp.common.visible
+import igor.kuridza.dice.githubapp.databinding.SearchRepositoriesFragmentBinding
 import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.ui.adapters.RepositoryListAdapter
-import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
+import igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>(),
-    RepositoryListAdapter.RepositoryClickListener,
+class SearchRepositoriesFragment : Fragment(),
+    RepositoryListAdapter.AuthorDetailsClickListener,
     RepositoryListAdapter.OpenInBrowserClickListener,
-    RepositoryListAdapter.AuthorDetailsClickListener
-{
+    RepositoryListAdapter.RepositoryClickListener{
+
     private val viewModel: RepositoriesListViewModel by viewModel()
+    private lateinit var binding: SearchRepositoriesFragmentBinding
     private val repositoryAdapter by lazy {  RepositoryListAdapter(this, this, this) }
-    private val args: RepositoriesListFragmentArgs by navArgs()
 
-    override fun getLayoutResourceId(): Int = R.layout.repositories_list_fragment
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = SearchRepositoriesFragmentBinding.inflate(inflater)
+        return binding.root
+    }
 
-    override fun setUpUi() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupRecycler()
-        searchRepositoriesByQuery(args.searchQuery)
-        observeRepositories()
         setSearchIconOnClickListener()
+        onBackPressed()
+    }
+
+    private fun onBackPressed(){
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupRecycler(){
         binding.repositoryRecyclerView.apply {
             adapter = repositoryAdapter
-            layoutManager = LinearLayoutManager(this@RepositoriesListFragment.context)
+            layoutManager = LinearLayoutManager(this.context)
         }
     }
 
     private fun setSearchIconOnClickListener(){
-        binding.searchButton.onClick {
-            findNavController().navigate(R.id.goToSearchRepositoriesFragment)
-        }
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { searchQuery ->
+                   handleSearch(searchQuery)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun handleSearch(searchQuery: String){
+        if (searchQuery.length >= 2)
+            searchRepositoriesByQuery(searchQuery)
+        else
+            showSnackbar(getString(R.string.snackbarQueryInfoMessage))
     }
 
     private fun searchRepositoriesByQuery(query: String){
+        hideErrorMessage()
+        hideNoDataMessage()
         viewModel.getRepositoriesVyQuery(query)
-    }
-
-    private fun observeRepositories(){
         viewModel.repositoriesList.observe(this){
             when(it){
                 is Resource.Success -> handleSuccess(it.data)
@@ -119,7 +154,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     override fun onRepositoryClicked(repository: Repository) {
-        val action = RepositoriesListFragmentDirections.goToRepositoryDetailsFragment(repository)
+        val action = SearchRepositoriesFragmentDirections.goToRepositoryDetailsFragment(repository)
         findNavController().navigate(action)
     }
 
@@ -131,17 +166,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     override fun onAuthorDetailsClicked(repositoryOwner: User) {
-        val action = RepositoriesListFragmentDirections.goToUserDetailsFragment(repositoryOwner, OPEN_PROFILE)
+        val action = SearchRepositoriesFragmentDirections.goToUserDetailsFragment(repositoryOwner, OPEN_PROFILE)
         findNavController().navigate(action)
-    }
-
-    companion object{
-        fun newsInstance(searchQuery: String): RepositoriesListFragment{
-            return RepositoriesListFragment().apply {
-                val bundle = Bundle()
-                bundle.putString(SEARCH_QUERY_KEY, searchQuery)
-                arguments = bundle
-            }
-        }
     }
 }

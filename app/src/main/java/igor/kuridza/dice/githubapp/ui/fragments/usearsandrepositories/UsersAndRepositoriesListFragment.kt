@@ -1,6 +1,7 @@
 package igor.kuridza.dice.githubapp.ui.fragments.usearsandrepositories
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -38,9 +39,24 @@ class UsersAndRepositoriesListFragment : BaseFragment<UsersAndRepositoriesListFr
 
     private fun setupTabLayoutAndViewPager(){
         binding.viewPager.adapter = viewPagerAdapter
+        attachTabLayoutAndViewPager()
+    }
+
+    private fun attachTabLayoutAndViewPager(){
         TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, position ->
             binding.viewPager.setCurrentItem(tab.position, true)
             tab.text = viewPagerAdapter.tabTitles[position]
         }.attach()
+    }
+
+    private fun detachTabLayoutAndViewPager(){
+        TabLayoutMediator(binding.tabLayout, binding.viewPager){
+                _, _ ->
+        }.detach()
+    }
+
+    override fun onDestroyView() {
+        detachTabLayoutAndViewPager()
+        super.onDestroyView()
     }
 }

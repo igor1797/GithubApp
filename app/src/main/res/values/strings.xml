@@ -16,4 +16,5 @@
     <string name="openRepositoriesText">Open\nrepositories</string>
     <string name="errorMessageText">An error occurred</string>
     <string name="noDataMessageText">No data to display!</string>
+    <string name="snackbarQueryInfoMessage">Query must contain at least 2 characters!</string>
 </resources>

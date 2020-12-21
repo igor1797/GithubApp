@@ -1,4 +1,4 @@
-package igor.kuridza.dice.githubapp.ui.fragments.search
+package igor.kuridza.dice.githubapp.ui.fragments.search.startscreen
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -185,12 +185,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun setBackgroundBehindBottomSheetByNewBottomSheetState(newState: Int){
-        val background = binding.backgroundBehindBottomSheet
         when(newState){
-            BottomSheetBehavior.STATE_HIDDEN -> background.gone()
-            BottomSheetBehavior.STATE_EXPANDED -> background.visible()
-            else -> background.visible()
+            BottomSheetBehavior.STATE_HIDDEN -> hideBackgroundBehindBottomSheet()
+            BottomSheetBehavior.STATE_EXPANDED -> showBackgroundBehindBottomSheet()
+            else -> showBackgroundBehindBottomSheet()
         }
+    }
+
+    private fun showBackgroundBehindBottomSheet(){
+        binding.backgroundBehindBottomSheet.visible()
+    }
+
+    private fun hideBackgroundBehindBottomSheet(){
+        binding.backgroundBehindBottomSheet.gone()
     }
 
     private fun changeAlphaOfBackgroundBehindBottomSheet(slideOffset: Float){

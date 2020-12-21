@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.SearchFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.startscreen.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -36,6 +36,12 @@
         <action
             android:id="@+id/goToUserDetailsFragment"
             app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/goToSearchUsersFragment"
+            app:destination="@id/searchUsersFragment" />
+        <action
+            android:id="@+id/goToSearchRepositoriesFragment"
+            app:destination="@id/searchRepositoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/repositoriesListFragment"
@@ -52,6 +58,9 @@
         <action
             android:id="@+id/goToUserDetailsFragment"
             app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/goToSearchRepositoriesFragment"
+            app:destination="@id/searchRepositoriesFragment" />
     </fragment>
     <fragment
         android:id="@+id/usersListFragment"
@@ -65,6 +74,9 @@
         <action
             android:id="@+id/goToUserDetailsFragment"
             app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/goToSearchUsersFragment"
+            app:destination="@id/searchUsersFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsRepositoryFragment"
@@ -89,5 +101,26 @@
             android:name="Action"
             app:argType="string">
         </argument>
+    </fragment>
+    <fragment
+        android:id="@+id/searchRepositoriesFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.searchrepositories.SearchRepositoriesFragment"
+        android:label="search_repositories_fragment"
+        tools:layout="@layout/search_repositories_fragment" >
+        <action
+            android:id="@+id/goToUserDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/goToRepositoryDetailsFragment"
+            app:destination="@id/detailsRepositoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchUsersFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.searchusers.SearchUsersFragment"
+        android:label="search_users_fragment"
+        tools:layout="@layout/search_users_fragment" >
+        <action
+            android:id="@+id/goToUserDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
 </navigation>
