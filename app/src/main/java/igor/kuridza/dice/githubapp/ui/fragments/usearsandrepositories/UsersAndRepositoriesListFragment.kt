@@ -31,8 +31,8 @@ class UsersAndRepositoriesListFragment : BaseFragment<UsersAndRepositoriesListFr
         activity?.let { fragmentActivity ->
             viewPagerAdapter = ViewPagerAdapter(
                 fragmentActivity = fragmentActivity,
-                fragments = listOf(RepositoriesListFragment.newsInstance(args.searchQuery), UsersListFragment.newInstance(args.searchQuery)),
-                tabTitles = listOf(REPOSITORIES_TAB_NAME, USERS_TAB_NAME)
+                tabTitles = listOf(REPOSITORIES_TAB_NAME, USERS_TAB_NAME),
+                searchQuery = args.searchQuery
             )
         }
     }
