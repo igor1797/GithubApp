@@ -89,7 +89,7 @@ class SearchRepositoriesFragment : Fragment(),
         viewModel.getRepositoriesVyQuery(query)
         viewModel.repositoriesList.observe(this){
             when(it){
-                is Resource.Success -> handleSuccess(it.data)
+                is Resource.Success<*> -> handleSuccess(it.data as List<Repository>)
                 is Resource.Error -> handleError()
                 is Resource.Loading -> handleLoading()
             }
