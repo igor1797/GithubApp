@@ -48,7 +48,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     private fun searchRepositoriesByQuery(query: String){
-        viewModel.getRepositoriesVyQuery(query)
+        viewModel.getRepositoriesByQuery(query)
     }
 
     private fun observeRepositories(){

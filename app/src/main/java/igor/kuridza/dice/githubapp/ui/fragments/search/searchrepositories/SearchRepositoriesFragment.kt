@@ -10,7 +10,6 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
 import igor.kuridza.dice.githubapp.common.gone
@@ -86,7 +85,7 @@ class SearchRepositoriesFragment : Fragment(),
     private fun searchRepositoriesByQuery(query: String){
         hideErrorMessage()
         hideNoDataMessage()
-        viewModel.getRepositoriesVyQuery(query)
+        viewModel.getRepositoriesByQuery(query)
         viewModel.repositoriesList.observe(this){
             when(it){
                 is Resource.Success -> handleSuccess(it.data)

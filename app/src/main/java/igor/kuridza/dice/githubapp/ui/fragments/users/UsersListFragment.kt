@@ -6,9 +6,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.*
-import igor.kuridza.dice.githubapp.databinding.UsersListFragmentBinding
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
+import igor.kuridza.dice.githubapp.databinding.UsersListFragmentBinding
 import igor.kuridza.dice.githubapp.ui.adapters.UserListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
