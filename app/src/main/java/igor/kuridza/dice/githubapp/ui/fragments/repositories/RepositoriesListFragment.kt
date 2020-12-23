@@ -66,7 +66,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
             hideLoading()
             hideErrorMessage()
             if (repositories.isNotEmpty()) {
-                repositoryAdapter.setRepo(repositories)
+                repositoryAdapter.submitList(repositories)
                 showData()
                 hideNoDataMessage()
             } else

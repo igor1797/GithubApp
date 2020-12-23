@@ -3,6 +3,8 @@ package igor.kuridza.dice.githubapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.onClick
@@ -14,9 +16,7 @@ class RepositoryListAdapter(
     private val repositoryItemClickListener: RepositoryClickListener,
     private val openInBrowserClickListener: OpenInBrowserClickListener,
     private val authorDetailsClickListener: AuthorDetailsClickListener
-): RecyclerView.Adapter<RepositoryListAdapter.RepositoryHolder>() {
-
-    private val repositories = arrayListOf<Repository>()
+): ListAdapter<Repository, RepositoryListAdapter.RepositoryHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,15 +25,10 @@ class RepositoryListAdapter(
     }
 
     override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
-        holder.bindItem(repositories[position], repositoryItemClickListener, openInBrowserClickListener, authorDetailsClickListener)
-    }
-
-    override fun getItemCount(): Int = repositories.size
-
-    fun setRepo(repos: List<Repository>){
-        this.repositories.clear()
-        this.repositories.addAll(repos)
-        notifyDataSetChanged()
+        val mRepository = getItem(position)
+        mRepository?.let { repository ->
+            holder.bindItem(repository, repositoryItemClickListener, openInBrowserClickListener, authorDetailsClickListener)
+        }
     }
 
     interface RepositoryClickListener{
@@ -66,6 +61,18 @@ class RepositoryListAdapter(
                 authorDetails.onClick {
                     authorDetailsClickListener.onAuthorDetailsClicked(mRepository.owner)
                 }
+            }
+        }
+    }
+
+    companion object{
+        val COMPARATOR = object : DiffUtil.ItemCallback<Repository>() {
+            override fun areItemsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+                return oldItem.name == newItem.name
+            }
+
+            override fun areContentsTheSame(oldItem: Repository, newItem: Repository): Boolean {
+                return oldItem == newItem
             }
         }
     }
