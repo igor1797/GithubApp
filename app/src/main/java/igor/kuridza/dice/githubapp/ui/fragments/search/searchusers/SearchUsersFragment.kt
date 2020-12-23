@@ -1,10 +1,5 @@
 package igor.kuridza.dice.githubapp.ui.fragments.search.searchusers
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,27 +9,20 @@ import igor.kuridza.dice.githubapp.databinding.SearchUsersFragmentBinding
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.ui.adapters.UserListAdapter
+import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import igor.kuridza.dice.githubapp.ui.fragments.users.UsersListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchUsersFragment : Fragment(),
+class SearchUsersFragment : BaseFragment<SearchUsersFragmentBinding>(),
     UserListAdapter.OpenProfileClickListener,
     UserListAdapter.OpenRepositoriesListener{
 
     private val viewModel: UsersListViewModel by viewModel()
     private val usersAdapter by lazy { UserListAdapter(this, this) }
-    private lateinit var binding: SearchUsersFragmentBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = SearchUsersFragmentBinding.inflate(inflater)
-        return binding.root
-    }
+    override fun getLayoutResourceId(): Int = R.layout.search_users_fragment
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setUpUi() {
         setupRecycler()
         setSearchIconOnClickListener()
         onBackPressed()

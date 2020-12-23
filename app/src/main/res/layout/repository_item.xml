@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -14,169 +13,165 @@
         android:id="@+id/repositoryCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
         android:layout_margin="8dp"
+        android:elevation="8dp"
         app:cardCornerRadius="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repositoryName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{repository.name}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/rightBackground"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="8dp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repositoryAuthor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{repository.owner.name}"
-            app:layout_constraintEnd_toStartOf="@id/rightBackground"
-            app:layout_constraintTop_toBottomOf="@id/repositoryName"
-            app:layout_constraintStart_toStartOf="@id/repositoryName"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="4dp"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/repositoryDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@{repository.description}"
-            app:layout_constraintEnd_toStartOf="@id/rightBackground"
-            app:layout_constraintTop_toBottomOf="@id/repositoryAuthor"
-            app:layout_constraintStart_toStartOf="@id/repositoryName"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"/>
-
-        <View
-            android:id="@+id/rightBackground"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/lavender"
-            />
-
-        <ImageView
-            android:id="@+id/privateOrPublicIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintBottom_toTopOf="@id/issueIcon"
-            privateOrPublic="@{repository.private}"
-            />
-
-        <ImageView
-            android:id="@+id/issueIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/privateOrPublicIcon"
-            app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintBottom_toTopOf="@id/watchersIcon"
-            android:src="@drawable/ic_issue_icon"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/numberOfIssues"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/issueIcon"
-            app:layout_constraintTop_toTopOf="@id/issueIcon"
-            app:layout_constraintBottom_toBottomOf="@id/issueIcon"
-            android:text="@{Integer.toString(repository.numberOfOpenedIssues)}"/>
-
-        <ImageView
-            android:id="@+id/watchersIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/issueIcon"
-            app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintBottom_toTopOf="@id/starredIcon"
-            android:src="@drawable/ic_watchers"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/numberOfWatchers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/watchersIcon"
-            app:layout_constraintTop_toTopOf="@id/watchersIcon"
-            app:layout_constraintBottom_toBottomOf="@id/watchersIcon"
-            android:text="@{Integer.toString(repository.numberOfWatchers)}"/>
-
-        <ImageView
-            android:id="@+id/starredIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/rightBackground"
-            app:layout_constraintTop_toBottomOf="@id/watchersIcon"
-            app:layout_constraintBottom_toBottomOf="@id/divider"
-            android:src="@drawable/ic_star"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/numberOfStarGazers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/starredIcon"
-            app:layout_constraintTop_toTopOf="@id/starredIcon"
-            app:layout_constraintBottom_toBottomOf="@id/starredIcon"
-            android:text="@{Integer.toString(repository.numberOfStarGazers)}"/>
-
-        <View
-            android:id="@+id/divider"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/repositoryDescription"
-            android:background="@color/silver"/>
+            android:layout_height="wrap_content">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/authorDetails"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:gravity="center"
-            android:text="@string/authorDetailsText"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:textSize="18sp"
-            android:layout_margin="8dp"
-            android:textColor="@color/white"
-            android:background="@color/darkLateGray"
-            />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/repositoryName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{repository.name}"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/rightBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/openInBrowser"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/authorDetails"
-            app:layout_constraintStart_toEndOf="@id/authorDetails"
-            app:layout_constraintBottom_toBottomOf="@id/authorDetails"
-            android:gravity="center"
-            android:text="@string/openInBrowserText"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:textSize="18sp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/dimgray"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/repositoryAuthor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{repository.owner.name}"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/rightBackground"
+                app:layout_constraintStart_toStartOf="@id/repositoryName"
+                app:layout_constraintTop_toBottomOf="@id/repositoryName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/repositoryDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{repository.description}"
+                app:layout_constraintEnd_toStartOf="@id/rightBackground"
+                app:layout_constraintStart_toStartOf="@id/repositoryName"
+                app:layout_constraintTop_toBottomOf="@id/repositoryAuthor" />
+
+            <View
+                android:id="@+id/rightBackground"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:background="@color/lavender"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/privateOrPublicIcon"
+                privateOrPublic="@{repository.private}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/issueIcon"
+                app:layout_constraintStart_toStartOf="@id/rightBackground"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/issueIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_issue_icon"
+                app:layout_constraintBottom_toTopOf="@id/watchersIcon"
+                app:layout_constraintStart_toStartOf="@id/rightBackground"
+                app:layout_constraintTop_toBottomOf="@id/privateOrPublicIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/numberOfIssues"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(repository.numberOfOpenedIssues)}"
+                app:layout_constraintBottom_toBottomOf="@id/issueIcon"
+                app:layout_constraintStart_toEndOf="@id/issueIcon"
+                app:layout_constraintTop_toTopOf="@id/issueIcon" />
+
+            <ImageView
+                android:id="@+id/watchersIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_watchers"
+                app:layout_constraintBottom_toTopOf="@id/starredIcon"
+                app:layout_constraintStart_toStartOf="@id/rightBackground"
+                app:layout_constraintTop_toBottomOf="@id/issueIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/numberOfWatchers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(repository.numberOfWatchers)}"
+                app:layout_constraintBottom_toBottomOf="@id/watchersIcon"
+                app:layout_constraintStart_toEndOf="@id/watchersIcon"
+                app:layout_constraintTop_toTopOf="@id/watchersIcon" />
+
+            <ImageView
+                android:id="@+id/starredIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star"
+                app:layout_constraintBottom_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="@id/rightBackground"
+                app:layout_constraintTop_toBottomOf="@id/watchersIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/numberOfStarGazers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(repository.numberOfStarGazers)}"
+                app:layout_constraintBottom_toBottomOf="@id/starredIcon"
+                app:layout_constraintStart_toEndOf="@id/starredIcon"
+                app:layout_constraintTop_toTopOf="@id/starredIcon" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/silver"
+                app:layout_constraintTop_toBottomOf="@id/repositoryDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/authorDetails"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/darkLateGray"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/authorDetailsText"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/openInBrowser"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/openInBrowserText"
+                android:textColor="@color/dimgray"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/authorDetails"
+                app:layout_constraintStart_toEndOf="@id/authorDetails"
+                app:layout_constraintTop_toTopOf="@id/authorDetails" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
