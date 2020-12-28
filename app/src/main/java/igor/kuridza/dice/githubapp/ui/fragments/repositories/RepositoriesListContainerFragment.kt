@@ -2,56 +2,50 @@ package igor.kuridza.dice.githubapp.ui.fragments.repositories
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import igor.kuridza.dice.githubapp.R
-import igor.kuridza.dice.githubapp.common.*
-import igor.kuridza.dice.githubapp.databinding.RepositoriesListFragmentBinding
+import androidx.recyclerview.widget.RecyclerView
+import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
+import igor.kuridza.dice.githubapp.common.gone
+import igor.kuridza.dice.githubapp.common.visible
 import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.ui.adapters.RepositoryListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
+import igor.kuridza.dice.githubapp.ui.fragments.repositories.search.SearchRepositoriesFragmentDirections
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>(),
+abstract class RepositoriesListContainerFragment<viewDataBinding: ViewDataBinding>:
+    BaseFragment<viewDataBinding>(),
     RepositoryListAdapter.RepositoryClickListener,
     RepositoryListAdapter.OpenInBrowserClickListener,
-    RepositoryListAdapter.AuthorDetailsClickListener
-{
-    private val viewModel: RepositoriesListViewModel by viewModel()
+    RepositoryListAdapter.AuthorDetailsClickListener{
+
+    protected abstract val layoutId: Int
+    protected abstract val noData: TextView
+    protected abstract val errorMessage: TextView
+    protected abstract val progressBar: ProgressBar
+    protected abstract val recyclerView: RecyclerView
+    private val viewModel: RepositoriesViewModel by viewModel()
     private val repositoryAdapter by lazy {  RepositoryListAdapter(this, this, this) }
-    private val args: RepositoriesListFragmentArgs by navArgs()
 
-    override fun getLayoutResourceId(): Int = R.layout.repositories_list_fragment
+    override fun getLayoutResourceId(): Int = layoutId
 
-    override fun setUpUi() {
-        setupRecycler()
-        searchRepositoriesByQuery(args.searchQuery)
-        observeRepositories()
-        setSearchIconOnClickListener()
-    }
-
-    private fun setupRecycler(){
-        binding.repositoryRecyclerView.apply {
+    protected fun setupRecycler(){
+        recyclerView.apply {
             adapter = repositoryAdapter
-            layoutManager = LinearLayoutManager(this@RepositoriesListFragment.context)
+            layoutManager = LinearLayoutManager(this.context)
         }
     }
 
-    private fun setSearchIconOnClickListener(){
-        binding.searchButton.onClick {
-            findNavController().navigate(R.id.goToSearchRepositoriesFragment)
-        }
-    }
-
-    private fun searchRepositoriesByQuery(query: String){
-        viewModel.getRepositoriesVyQuery(query)
-    }
-
-    private fun observeRepositories(){
+    protected fun searchRepositoriesByQuery(query: String){
+        hideErrorMessage()
+        hideNoDataMessage()
+        viewModel.getRepositoriesByQuery(query)
         viewModel.repositoriesList.observe(this){
             when(it){
                 is Resource.Success -> handleSuccess(it.data)
@@ -87,39 +81,39 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     private fun showNoDataMessage(){
-        binding.noDataMessage.visible()
+        noData.visible()
     }
 
     private fun hideNoDataMessage(){
-        binding.noDataMessage.gone()
+        noData.gone()
     }
 
     private fun showErrorMessage(){
-        binding.errorMessage.visible()
+        errorMessage.visible()
     }
 
     private fun hideErrorMessage(){
-        binding.errorMessage.gone()
+        errorMessage.gone()
     }
 
-    private fun hideData(){
-        binding.repositoryRecyclerView.gone()
+    private fun hideData() {
+        recyclerView.gone()
     }
 
     private fun showData(){
-        binding.repositoryRecyclerView.visible()
+        recyclerView.visible()
     }
 
     private fun hideLoading(){
-        binding.progressBar.gone()
+        progressBar.gone()
     }
 
     private fun showLoading(){
-        binding.progressBar.visible()
+        progressBar.visible()
     }
 
     override fun onRepositoryClicked(repository: Repository) {
-        val action = RepositoriesListFragmentDirections.goToRepositoryDetailsFragment(repository)
+        val action = SearchRepositoriesFragmentDirections.goToRepositoryDetailsFragment(repository)
         findNavController().navigate(action)
     }
 
@@ -131,17 +125,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     override fun onAuthorDetailsClicked(repositoryOwner: User) {
-        val action = RepositoriesListFragmentDirections.goToUserDetailsFragment(repositoryOwner, OPEN_PROFILE)
+        val action = SearchRepositoriesFragmentDirections.goToUserDetailsFragment(repositoryOwner, OPEN_PROFILE)
         findNavController().navigate(action)
-    }
-
-    companion object{
-        fun newsInstance(searchQuery: String): RepositoriesListFragment{
-            return RepositoriesListFragment().apply {
-                val bundle = Bundle()
-                bundle.putString(SEARCH_QUERY_KEY, searchQuery)
-                arguments = bundle
-            }
-        }
     }
 }

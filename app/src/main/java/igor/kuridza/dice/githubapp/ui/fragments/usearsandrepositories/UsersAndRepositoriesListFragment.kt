@@ -1,9 +1,5 @@
 package igor.kuridza.dice.githubapp.ui.fragments.usearsandrepositories
 
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.OnBackPressedCallback
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import igor.kuridza.dice.githubapp.R
@@ -12,8 +8,8 @@ import igor.kuridza.dice.githubapp.common.USERS_TAB_NAME
 import igor.kuridza.dice.githubapp.databinding.UsersAndRepositoriesListFragmentBinding
 import igor.kuridza.dice.githubapp.ui.adapters.ViewPagerAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
-import igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListFragment
-import igor.kuridza.dice.githubapp.ui.fragments.users.UsersListFragment
+import igor.kuridza.dice.githubapp.ui.fragments.repositories.list.RepositoriesListFragment
+import igor.kuridza.dice.githubapp.ui.fragments.users.list.UsersListFragment
 
 class UsersAndRepositoriesListFragment : BaseFragment<UsersAndRepositoriesListFragmentBinding>() {
 

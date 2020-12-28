@@ -1,4 +1,4 @@
-package igor.kuridza.dice.githubapp.ui.fragments.search.startscreen
+package igor.kuridza.dice.githubapp.ui.fragments.startscreen
 
 import android.annotation.SuppressLint
 import android.view.View

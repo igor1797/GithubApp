@@ -7,13 +7,13 @@
     <data>
         <variable
             name="viewModel"
-            type="igor.kuridza.dice.githubapp.ui.fragments.search.startscreen.SearchFragmentViewModel" />
+            type="igor.kuridza.dice.githubapp.ui.fragments.startscreen.SearchFragmentViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.fragments.search.startscreen.SearchFragment">
+        tools:context=".ui.fragments.startscreen.SearchFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -63,10 +63,10 @@
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
                 android:layout_height="65dp"
-                android:backgroundTint="@color/buttonSearchBackgroundColor"
+                android:backgroundTint="@drawable/button_color"
                 android:enabled="@{viewModel.searchInputIsDataValid}"
                 android:text="@string/searchTextButton"
-                android:textColor="@color/buttonSearchTextColor"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:cornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -135,9 +135,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="48dp"
-                android:backgroundTint="@color/dimgray"
+                android:backgroundTint="@drawable/button_color"
                 android:text="@string/applyButtonText"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 app:cornerRadius="10dp"
                 android:enabled="@{viewModel.isCheckedAtLeastOneSource}"

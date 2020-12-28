@@ -7,7 +7,7 @@ import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.repositories.SearchRepository
 
-class UsersListViewModel(
+class UsersViewModel(
     private val searchRepository: SearchRepository
 ) : ViewModel() {
 
