@@ -12,9 +12,9 @@ class SearchRepository(
     private val apiService: GithubApiService
 ) {
 
-    fun getRepositoriesBySearchQuery(searchQuery: String): LiveData<Resource<List<Repository>>>{
-        val repositories = MutableLiveData<Resource<List<Repository>>>()
-        repositories.postValue(Resource.Loading())
+    fun getRepositoriesBySearchQuery(searchQuery: String): LiveData<Resource>{
+        val repositories = MutableLiveData<Resource>()
+        repositories.postValue(Resource.Loading)
         apiService.searchRepositoriesByQuery(searchQuery).enqueue(object : Callback<RepositoriesResponse>{
             override fun onResponse(
                 call: Call<RepositoriesResponse>,
@@ -35,9 +35,9 @@ class SearchRepository(
         return repositories
     }
 
-    fun getUsersBySearchQuery(searchQuery: String): LiveData<Resource<List<User>>>{
-        val mUserList = MutableLiveData<Resource<List<User>>>()
-        mUserList.postValue(Resource.Loading())
+    fun getUsersBySearchQuery(searchQuery: String): LiveData<Resource>{
+        val mUserList = MutableLiveData<Resource>()
+        mUserList.postValue(Resource.Loading)
         apiService.searchUsersByQuery(searchQuery).enqueue(object : Callback<UsersResponse> {
             override fun onResponse(
                 call: Call<UsersResponse>,

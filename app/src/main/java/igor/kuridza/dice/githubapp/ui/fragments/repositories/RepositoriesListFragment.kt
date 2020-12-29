@@ -54,7 +54,7 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     private fun observeRepositories(){
         viewModel.repositoriesList.observe(this){
             when(it){
-                is Resource.Success -> handleSuccess(it.data)
+                is Resource.Success<*> -> handleSuccess(it.data as List<Repository>)
                 is Resource.Error -> handleError()
                 is Resource.Loading -> handleLoading()
             }

@@ -72,7 +72,7 @@ class SearchUsersFragment : Fragment(),
         viewModel.getUserByQuery(query)
         viewModel.userList.observe(this){
             when(it){
-                is Resource.Success -> handleSuccess(it.data)
+                is Resource.Success<*> -> handleSuccess(it.data as List<User>)
                 is Resource.Loading -> handleLoading()
                 is Resource.Error -> handleError()
             }
