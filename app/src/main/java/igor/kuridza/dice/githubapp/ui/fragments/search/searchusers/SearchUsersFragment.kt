@@ -91,7 +91,7 @@ class SearchUsersFragment : Fragment(),
             hideLoading()
             hideErrorMessage()
             if (users.isNotEmpty()) {
-                usersAdapter.setUsers(users)
+                usersAdapter.submitList(users)
                 showData()
                 hideNoDataMessage()
             } else
