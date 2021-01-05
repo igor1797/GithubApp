@@ -2,15 +2,9 @@ package igor.kuridza.dice.githubapp.ui.fragments.search.searchrepositories
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
 import igor.kuridza.dice.githubapp.common.gone
@@ -21,28 +15,21 @@ import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
 import igor.kuridza.dice.githubapp.ui.adapters.RepositoryListAdapter
+import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchRepositoriesFragment : Fragment(),
+class SearchRepositoriesFragment : BaseFragment<SearchRepositoriesFragmentBinding>(),
     RepositoryListAdapter.AuthorDetailsClickListener,
     RepositoryListAdapter.OpenInBrowserClickListener,
     RepositoryListAdapter.RepositoryClickListener{
 
     private val viewModel: RepositoriesListViewModel by viewModel()
-    private lateinit var binding: SearchRepositoriesFragmentBinding
     private val repositoryAdapter by lazy {  RepositoryListAdapter(this, this, this) }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = SearchRepositoriesFragmentBinding.inflate(inflater)
-        return binding.root
-    }
+    override fun getLayoutResourceId(): Int = R.layout.search_repositories_fragment
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setUpUi() {
         setupRecycler()
         setSearchIconOnClickListener()
         onBackPressed()
