@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.*
 import igor.kuridza.dice.githubapp.databinding.RepositoriesListFragmentBinding
+import igor.kuridza.dice.githubapp.model.RepositoriesResponse
 import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
@@ -30,7 +31,6 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     override fun setUpUi() {
         setupRecycler()
         searchRepositoriesByQuery(args.searchQuery)
-        observeRepositories()
         setSearchIconOnClickListener()
     }
 
@@ -48,15 +48,12 @@ class RepositoriesListFragment : BaseFragment<RepositoriesListFragmentBinding>()
     }
 
     private fun searchRepositoriesByQuery(query: String){
-        viewModel.getRepositoriesVyQuery(query)
-    }
-
-    private fun observeRepositories(){
-        viewModel.repositoriesList.observe(this){
+        viewModel.getRepositoriesByQuery(query)
+        viewModel.repositories.observe(this){
             when(it){
-                is Resource.Success<*> -> handleSuccess(it.data as List<Repository>)
+                is Resource.Success<RepositoriesResponse> ->  handleSuccess(it.data.repositories)
                 is Resource.Error -> handleError()
-                is Resource.Loading -> handleLoading()
+                Resource.Loading -> handleLoading()
             }
         }
     }
