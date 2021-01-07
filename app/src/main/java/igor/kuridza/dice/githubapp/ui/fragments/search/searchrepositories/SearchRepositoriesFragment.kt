@@ -16,6 +16,7 @@ import igor.kuridza.dice.githubapp.common.gone
 import igor.kuridza.dice.githubapp.common.showSnackbar
 import igor.kuridza.dice.githubapp.common.visible
 import igor.kuridza.dice.githubapp.databinding.SearchRepositoriesFragmentBinding
+import igor.kuridza.dice.githubapp.model.RepositoriesResponse
 import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
@@ -86,10 +87,10 @@ class SearchRepositoriesFragment : Fragment(),
         hideErrorMessage()
         hideNoDataMessage()
         viewModel.getRepositoriesByQuery(query)
-        viewModel.repositoriesList.observe(this){
+        viewModel.repositories.observe(this){
             when(it){
-                is Resource.Success -> handleSuccess(it.data)
-                is Resource.Error -> handleError()
+                is Resource.Success<RepositoriesResponse> -> handleSuccess(it.data.repositories)
+                is Resource.Error-> handleError()
                 is Resource.Loading -> handleLoading()
             }
         }
