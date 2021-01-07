@@ -9,6 +9,7 @@ import igor.kuridza.dice.githubapp.common.*
 import igor.kuridza.dice.githubapp.databinding.UsersListFragmentBinding
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
+import igor.kuridza.dice.githubapp.model.UsersResponse
 import igor.kuridza.dice.githubapp.ui.adapters.UserListAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -25,8 +26,7 @@ class UsersListFragment : BaseFragment<UsersListFragmentBinding>(),
 
     override fun setUpUi() {
         setupRecycler()
-        searchUsersByQuery(args.searchQuery)
-        observeUsers()
+        searchAndObserveUsersByQuery(args.searchQuery)
         setSearchButtonOnClickListener()
     }
 
@@ -36,24 +36,21 @@ class UsersListFragment : BaseFragment<UsersListFragmentBinding>(),
         }
     }
 
-    private fun searchUsersByQuery(query: String){
-        viewModel.getUserByQuery(query)
+    private fun searchAndObserveUsersByQuery(query: String){
+        viewModel.getUsersByQuery(query)
+        viewModel.users.observe(this){
+            when(it){
+                is Resource.Success<UsersResponse> -> handleSuccess(it.data.users)
+                is Resource.Error -> handleError()
+                Resource.Loading -> handleLoading()
+            }
+        }
     }
 
     private fun setupRecycler(){
         binding.usersRecyclerView.apply {
             adapter = usersAdapter
             layoutManager = LinearLayoutManager(this@UsersListFragment.context)
-        }
-    }
-
-    private fun observeUsers(){
-        viewModel.userList.observe(this){
-            when(it){
-                is Resource.Success<*> -> handleSuccess(it.data as List<User>)
-                is Resource.Loading -> handleLoading()
-                is Resource.Error -> handleError()
-            }
         }
     }
 

@@ -51,16 +51,18 @@ class SearchUsersFragment : BaseFragment<SearchUsersFragmentBinding>(),
 
     private fun handleSearch(searchQuery: String){
         if (searchQuery.length >= 2)
-            searchUsersByQuery(searchQuery)
+            searchAndObserveUsersByQuery(searchQuery)
         else
             showSnackbar(getString(R.string.snackbarQueryInfoMessage))
     }
 
-    private fun searchUsersByQuery(query: String){
-        viewModel.getUserByQuery(query)
-        viewModel.userList.observe(this){
+    private fun searchAndObserveUsersByQuery(query: String){
+        hideErrorMessage()
+        hideNoDataMessage()
+        viewModel.getUsersByQuery(query)
+        viewModel.users.observe(this){
             when(it){
-                is Resource.Success<*> -> handleSuccess(it.data as List<User>)
+                is Resource.Success -> handleSuccess(it.data.users)
                 is Resource.Loading -> handleLoading()
                 is Resource.Error -> handleError()
             }
