@@ -48,9 +48,9 @@ abstract class RepositoriesListContainerFragment<viewDataBinding: ViewDataBindin
         viewModel.getRepositoriesByQuery(query)
         viewModel.repositoriesList.observe(this){
             when(it){
-                is Resource.Success -> handleSuccess(it.data)
+                is Resource.Success<RepositoriesResponse> ->  handleSuccess(it.data.repositories)
                 is Resource.Error -> handleError()
-                is Resource.Loading -> handleLoading()
+                Resource.Loading -> handleLoading()
             }
         }
     }
@@ -60,7 +60,7 @@ abstract class RepositoriesListContainerFragment<viewDataBinding: ViewDataBindin
             hideLoading()
             hideErrorMessage()
             if (repositories.isNotEmpty()) {
-                repositoryAdapter.setRepo(repositories)
+                repositoryAdapter.submitList(repositories)
                 showData()
                 hideNoDataMessage()
             } else

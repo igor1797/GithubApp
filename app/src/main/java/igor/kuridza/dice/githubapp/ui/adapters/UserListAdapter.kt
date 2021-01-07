@@ -3,6 +3,8 @@ package igor.kuridza.dice.githubapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import igor.kuridza.dice.githubapp.R
 import igor.kuridza.dice.githubapp.common.onClick
@@ -12,9 +14,7 @@ import igor.kuridza.dice.githubapp.model.User
 class UserListAdapter(
     private val openProfileClickListener: OpenProfileClickListener,
     private val openRepositoriesListener: OpenRepositoriesListener
-): RecyclerView.Adapter<UserListAdapter.UserListHolder>(){
-
-    private val userList = arrayListOf<User>()
+): ListAdapter<User, UserListAdapter.UserListHolder>(COMPARATOR){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,15 +23,10 @@ class UserListAdapter(
     }
 
     override fun onBindViewHolder(holder: UserListHolder, position: Int) {
-        holder.bindItem(userList[position], openProfileClickListener, openRepositoriesListener)
-    }
-
-    override fun getItemCount(): Int = userList.size
-
-    fun setUsers(users: List<User>){
-        this.userList.clear()
-        this.userList.addAll(users)
-        notifyDataSetChanged()
+        val mUser = getItem(position)
+        mUser?.let { user ->
+            holder.bindItem(user, openProfileClickListener, openRepositoriesListener)
+        }
     }
 
     interface OpenProfileClickListener{
@@ -52,6 +47,18 @@ class UserListAdapter(
                 openRepositories.onClick {
                     openRepositoriesListener.onOpenRepositories(mUser)
                 }
+            }
+        }
+    }
+
+    companion object{
+        val COMPARATOR = object : DiffUtil.ItemCallback<User>() {
+            override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+                return oldItem.name == newItem.name
+            }
+
+            override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+                return oldItem == newItem
             }
         }
     }

@@ -8,12 +8,11 @@ import igor.kuridza.dice.githubapp.common.USERS_TAB_NAME
 import igor.kuridza.dice.githubapp.databinding.UsersAndRepositoriesListFragmentBinding
 import igor.kuridza.dice.githubapp.ui.adapters.ViewPagerAdapter
 import igor.kuridza.dice.githubapp.ui.fragments.base.BaseFragment
-import igor.kuridza.dice.githubapp.ui.fragments.repositories.list.RepositoriesListFragment
-import igor.kuridza.dice.githubapp.ui.fragments.users.list.UsersListFragment
 
 class UsersAndRepositoriesListFragment : BaseFragment<UsersAndRepositoriesListFragmentBinding>() {
 
     private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var tabLayoutMediator: TabLayoutMediator
     private val args: UsersAndRepositoriesListFragmentArgs by navArgs()
 
     override fun getLayoutResourceId(): Int = R.layout.users_and_repositories_list_fragment
@@ -27,32 +26,30 @@ class UsersAndRepositoriesListFragment : BaseFragment<UsersAndRepositoriesListFr
         activity?.let { fragmentActivity ->
             viewPagerAdapter = ViewPagerAdapter(
                 fragmentActivity = fragmentActivity,
-                fragments = listOf(RepositoriesListFragment.newsInstance(args.searchQuery), UsersListFragment.newInstance(args.searchQuery)),
-                tabTitles = listOf(REPOSITORIES_TAB_NAME, USERS_TAB_NAME)
+                tabTitles = listOf(REPOSITORIES_TAB_NAME, USERS_TAB_NAME),
+                searchQuery = args.searchQuery
             )
         }
     }
 
+    private fun initAndAttachTabLayoutMediator(){
+        tabLayoutMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, position ->
+            tab.text = viewPagerAdapter.tabTitles[position]
+        }
+        tabLayoutMediator.attach()
+    }
+
     private fun setupTabLayoutAndViewPager(){
         binding.viewPager.adapter = viewPagerAdapter
-        attachTabLayoutAndViewPager()
+        initAndAttachTabLayoutMediator()
     }
 
-    private fun attachTabLayoutAndViewPager(){
-        TabLayoutMediator(binding.tabLayout, binding.viewPager){ tab, position ->
-            binding.viewPager.setCurrentItem(tab.position, true)
-            tab.text = viewPagerAdapter.tabTitles[position]
-        }.attach()
-    }
-
-    private fun detachTabLayoutAndViewPager(){
-        TabLayoutMediator(binding.tabLayout, binding.viewPager){
-                _, _ ->
-        }.detach()
+    private fun detachTabLayoutMediator(){
+        tabLayoutMediator.detach()
     }
 
     override fun onDestroyView() {
-        detachTabLayoutAndViewPager()
+        detachTabLayoutMediator()
         super.onDestroyView()
     }
 }

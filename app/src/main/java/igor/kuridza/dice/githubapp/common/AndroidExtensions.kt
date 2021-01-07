@@ -7,6 +7,10 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import igor.kuridza.dice.githubapp.R
+import igor.kuridza.dice.githubapp.model.Resource
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.Response
 
 fun View.onClick(onClick: () -> Unit){
     this.setOnClickListener {
@@ -41,3 +45,21 @@ fun View.visible(){
 fun Fragment.showSnackbar(message: String){
     Snackbar.make(this.requireView().rootView, message, Snackbar.LENGTH_SHORT).show()
 }
+
+fun <T> makeNetworkRequest(query: String,apiCall: suspend (query: String) -> Response<T>) : Flow<Resource<T>>{
+    return flow {
+        emit(Resource.Loading)
+        try {
+            val response: Response<T> = apiCall.invoke(query)
+            if(response.isSuccessful){
+                response.body()?.let {
+                    emit(Resource.Success(it))
+                }
+            }else
+                emit(Resource.Error(response.message()))
+        }catch (e: Throwable){
+            emit(Resource.Error(e.message))
+        }
+    }
+}
+

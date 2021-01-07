@@ -46,18 +46,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/frameLayout" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchInput"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_search"
                 android:hint="@string/searchHintText"
-                android:inputType="text"
-                android:padding="15dp"
                 app:layout_constraintBottom_toTopOf="@id/searchButton"
                 app:layout_constraintEnd_toEndOf="@id/logo"
                 app:layout_constraintStart_toStartOf="@id/logo"
-                app:layout_constraintTop_toBottomOf="@id/logo" />
+                app:layout_constraintTop_toBottomOf="@id/logo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchInput"
+                    android:drawableEnd="@drawable/ic_search"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:backgroundTint="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/searchButton"
@@ -72,7 +79,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/logo"
                 app:layout_constraintStart_toStartOf="@id/logo"
-                app:layout_constraintTop_toBottomOf="@id/searchInput" />
+                app:layout_constraintTop_toBottomOf="@id/textLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
