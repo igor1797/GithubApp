@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.startscreen.SearchFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.startscreen.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/repositoriesListFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.repositories.list.RepositoriesListFragment"
         android:label="repositories_list_fragment"
         tools:layout="@layout/repositories_list_fragment">
         <argument
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/usersListFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.users.UsersListFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.users.list.UsersListFragment"
         android:label="users_list_fragment"
         tools:layout="@layout/users_list_fragment">
         <argument
@@ -104,7 +104,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchRepositoriesFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.searchrepositories.SearchRepositoriesFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.repositories.search.SearchRepositoriesFragment"
         android:label="search_repositories_fragment"
         tools:layout="@layout/search_repositories_fragment" >
         <action
@@ -116,7 +116,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchUsersFragment"
-        android:name="igor.kuridza.dice.githubapp.ui.fragments.search.searchusers.SearchUsersFragment"
+        android:name="igor.kuridza.dice.githubapp.ui.fragments.users.search.SearchUsersFragment"
         android:label="search_users_fragment"
         tools:layout="@layout/search_users_fragment" >
         <action

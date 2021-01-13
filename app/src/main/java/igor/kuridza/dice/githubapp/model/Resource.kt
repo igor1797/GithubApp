@@ -1,7 +1,7 @@
 package igor.kuridza.dice.githubapp.model
 
-sealed class Resource{
-    data class Success<T>(val data: T) : Resource()
-    data class Error(val message: String?) : Resource()
-    object Loading: Resource() 
+sealed class Resource<out T>{
+    data class Success<out T>(val data: T) : Resource<T>()
+    data class Error(val message: String?) : Resource<Nothing>()
+    object Loading: Resource<Nothing>()
 }
