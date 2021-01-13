@@ -1,6 +1,5 @@
 package igor.kuridza.dice.githubapp.ui.fragments.users
 
-import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.ViewDataBinding
@@ -36,10 +35,10 @@ abstract class UsersListContainerFragment<viewDataBinding: ViewDataBinding>: Bas
     protected fun searchUsersByQuery(query: String) {
         hideErrorMessage()
         hideNoDataMessage()
-        viewModel.getUserByQuery(query)
-        viewModel.userList.observe(this) {
+        viewModel.getUsersByQuery(query)
+        viewModel.users.observe(this) {
             when (it) {
-                is Resource.Success -> handleSuccess(it.data)
+                is Resource.Success -> handleSuccess(it.data.users)
                 is Resource.Loading -> handleLoading()
                 is Resource.Error -> handleError()
             }
@@ -58,7 +57,7 @@ abstract class UsersListContainerFragment<viewDataBinding: ViewDataBinding>: Bas
             hideLoading()
             hideErrorMessage()
             if (users.isNotEmpty()) {
-                usersAdapter.setUsers(users)
+                usersAdapter.submitList(users)
                 showData()
                 hideNoDataMessage()
             } else

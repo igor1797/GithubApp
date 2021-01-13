@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import igor.kuridza.dice.githubapp.common.OPEN_PROFILE
 import igor.kuridza.dice.githubapp.common.gone
 import igor.kuridza.dice.githubapp.common.visible
+import igor.kuridza.dice.githubapp.model.RepositoriesResponse
 import igor.kuridza.dice.githubapp.model.Repository
 import igor.kuridza.dice.githubapp.model.Resource
 import igor.kuridza.dice.githubapp.model.User
@@ -30,7 +31,7 @@ abstract class RepositoriesListContainerFragment<viewDataBinding: ViewDataBindin
     protected abstract val errorMessage: TextView
     protected abstract val progressBar: ProgressBar
     protected abstract val recyclerView: RecyclerView
-    private val viewModel: RepositoriesViewModel by viewModel()
+    private val viewModel: RepositoriesListViewModel by viewModel()
     private val repositoryAdapter by lazy {  RepositoryListAdapter(this, this, this) }
 
     override fun getLayoutResourceId(): Int = layoutId
@@ -46,7 +47,7 @@ abstract class RepositoriesListContainerFragment<viewDataBinding: ViewDataBindin
         hideErrorMessage()
         hideNoDataMessage()
         viewModel.getRepositoriesByQuery(query)
-        viewModel.repositoriesList.observe(this){
+        viewModel.repositories.observe(this){
             when(it){
                 is Resource.Success<RepositoriesResponse> ->  handleSuccess(it.data.repositories)
                 is Resource.Error -> handleError()

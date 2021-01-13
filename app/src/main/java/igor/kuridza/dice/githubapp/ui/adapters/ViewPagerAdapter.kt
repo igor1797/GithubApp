@@ -3,8 +3,8 @@ package igor.kuridza.dice.githubapp.ui.adapters
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import igor.kuridza.dice.githubapp.ui.fragments.repositories.RepositoriesListFragment
-import igor.kuridza.dice.githubapp.ui.fragments.users.UsersListFragment
+import igor.kuridza.dice.githubapp.ui.fragments.repositories.list.RepositoriesListFragment
+import igor.kuridza.dice.githubapp.ui.fragments.users.list.UsersListFragment
 
 class ViewPagerAdapter(
     fragmentActivity: FragmentActivity,
